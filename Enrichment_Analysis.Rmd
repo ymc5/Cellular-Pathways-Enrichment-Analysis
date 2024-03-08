@@ -1,0 +1,73 @@
+---
+title: "Enrichment Analysis Assignment (Week7)"
+subtitle: "Enrichment Analysis Using EnrichR R Package"
+author: "Youngmin Choi"
+date: "2023-10-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(enrichR)
+library(openxlsx)
+```
+
+#### 1. Import T-test Results
+```{r}
+fileName<-"input/TTest_HW_EGradeIII-IV_(Comp).vs._EGradeI-II_(Base).TTest.csv"
+result1 <- read.csv(file=fileName, header=T, stringsAsFactors = F, row.names = 1)
+
+
+```
+
+#### 2. Filtering/Shortlisting
+
+```{r}
+pValueCutOff <- 0.01
+which1 <- ((as.numeric(result1$Pvalue) <= pValueCutOff) & (as.numeric(result1$SignedFC) >= 1.5 | as.numeric(result1$SignedFC) <=-1.5))
+table(which1)
+resultShort <- result1[which1,]
+write.csv(x=resultShort, file="output/TTest_results_shortlist_2.csv")
+
+```
+
+
+#### 3. Clean Gene Names
+
+```{r}
+funcSplit <- function(rep_gene) {
+  rep_gene_split <- unlist (strsplit(x=rep_gene, split='|', fixed=TRUE))
+  gene <- rep_gene_split[2]
+  return(gene)
+}
+geneListSplit <- apply (X=as.matrix(row.names(resultShort)), MARGIN=1, FUN=funcSplit)
+head(geneListSplit)
+geneListSplit1 <- unique(geneListSplit)
+geneListFinal <- na.omit(geneListSplit1)
+
+length(geneListFinal)
+write.table (x=geneListFinal, file='output/shortListedUniqueGenes.tsv', quote=F, sep='\t', row.names=FALSE, col.names=F)
+
+
+```
+
+
+#### 4. Load Databses for EnrichR R Package
+
+```{r}
+dbs <- enrichR :: listEnrichrDbs()
+
+dblist <- read.csv(file='input/2023-EnrichR-Databases.txt', header=F, stringsAsFactors = F)
+head(dblist)
+
+```
+
+#### 5. Call Function to Run Enrichment
+
+```{r}
+outputFileName <- paste("output/YoungminChoi", "_EnrichR_HW.xlsx", sep="")
+source(file="functionEnrichment.R")
+functionEnrichment(dblist, geneListFinal, outputFileName)
+
+```
