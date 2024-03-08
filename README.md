@@ -24,4 +24,3 @@ After conducting enrichment analysis on liver cancer patient dataset, the follow
 #### Reference:
 1)	Jacinth Wing-Sum Cheu et al. 2023.  “Ferroptosis Suppressor Protein 1 Inhibition Promotes Tumor Ferroptosis and Anti-tumor Immune Responses in Liver Cancer” Cellular and Molecular Gastroenterology and Hepatology, Volume 16, Issue 1: 133-159, ISSN 2352-345X
 2)	Lu Y et al. 2022. “FAM21C Promotes Hepatocellular Carcinoma Invasion and Metastasis by Driving Actin Cytoskeleton Remodeling via Inhibiting Capping Ability of CAPZA1.” Front Oncol. Jan 13;11:809195. doi: 10.3389/fonc.2021.809195. PMID: 35096613; PMCID: PMC8793146.
-![image](https://github.com/ymc5/Cellular-Pathways-Enrichment-Analysis/assets/162189778/9a7d2a1a-1b2b-404a-8748-3e4179c8c017)
